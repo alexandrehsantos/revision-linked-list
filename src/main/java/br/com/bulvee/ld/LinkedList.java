@@ -85,8 +85,13 @@ public class LinkedList<T> {
         if(totalItems == 0){
             throw new IllegalArgumentException("This list is empty");
         }
+
         this.firstNode = this.firstNode.getNextNode();
         totalItems --;
+
+        if(this.totalItems ==0){
+            lastNode = null;
+        }
 
     }
 
