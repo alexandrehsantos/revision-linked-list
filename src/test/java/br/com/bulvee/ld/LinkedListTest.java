@@ -6,15 +6,15 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-class LinkedListTest {
+class LinkedListTest extends Mock {
 
     private LinkedList<Stock> linkedList;
-    private Mock mock;
+
 
     @BeforeEach
     void setUp() {
         linkedList = new LinkedList();
-        mock = new Mock();
+//        mock = new Mock();
 
     }
 
@@ -25,14 +25,13 @@ class LinkedListTest {
     @Test
     void givenItems_whenAddFirst_ValidPosition_thenVerify(TestInfo testInfo) {
         System.out.println("displayName = " + testInfo.getDisplayName());
-        linkedList.addFirst(mock.petr4);
-        linkedList.addFirst(mock.b3sa3);
-        linkedList.addFirst(mock.bbas3);
-        linkedList.addFirst(mock.vale3);
+        linkedList.addFirst(petr4);
+        linkedList.addFirst(b3sa3);
+        linkedList.addFirst(bbas3);
+        linkedList.addFirst(vale3);
 
         System.out.println(linkedList);
-        Stock vale3 = mock.vale3;
-        assertTrue(validPositionFisrt(vale3));
+        assertTrue(isIndex(0, vale3));
 
     }
 
@@ -40,15 +39,14 @@ class LinkedListTest {
     @Test
     void givenItems_whenAddLast_ValidPosition_thenVerify(TestInfo testInfo) {
         System.out.println("displayName = " + testInfo.getDisplayName());
-        linkedList.addFirst(mock.b3sa3);
-        linkedList.addFirst(mock.bbas3);
-        linkedList.addFirst(mock.vale3);
+        linkedList.addFirst(b3sa3);
+        linkedList.addFirst(bbas3);
+        linkedList.addFirst(vale3);
         //LastItem
-        linkedList.addLast(mock.petr4);
+        linkedList.addLast(petr4);
 
         System.out.println(linkedList);
-        assertTrue(validPositionLast(mock.petr4));
-
+        assertTrue(validPositionLast(petr4));
     }
 
     @Test
@@ -64,45 +62,89 @@ class LinkedListTest {
     void givenIndex_whenAddAtMiddle_thenVerify(TestInfo testInfo) {
         System.out.println("displayName = " + testInfo.getDisplayName());
 
-        linkedList.addFirst(mock.b3sa3);
-        linkedList.addFirst(mock.bbas3);
-        linkedList.addFirst(mock.vale3);
+        linkedList.addFirst(b3sa3);
+        linkedList.addFirst(bbas3);
+        linkedList.addFirst(vale3);
 
 
-        Stock atMiddle = mock.irbr3;
+        Stock atMiddle = irbr3;
         int index = 1;
         linkedList.add(index, atMiddle);
 
         System.out.println(linkedList);
-        assertTrue(isAtIndex(index,  atMiddle));
+        assertTrue(isAtIndex(index, atMiddle));
     }
 
     @Test
-    void givenItens_whenAdd_checkSize_thenVerify(TestInfo testInfo) {
-        System.out.println("displayName = " + testInfo.getDisplayName());
+    void givenItems_whenAddAtFirst_checkSize_thenVerify(TestInfo testInfo) {
+        System.out.println("di" +
+                "splayName = " + testInfo.getDisplayName());
 
-        linkedList.addFirst(mock.b3sa3);
-        linkedList.addFirst(mock.bbas3);
-        linkedList.addFirst(mock.vale3);
+        linkedList.addFirst(b3sa3);
+        linkedList.addFirst(bbas3);
+        linkedList.addFirst(vale3);
 
         assertTrue(isSize(3));
 
     }
 
-    private boolean isSize(int index) {
-        return linkedList.size() == index;
+    private boolean isSize(int i) {
+        return linkedList.size() == i;
+    }
+
+
+    @Test
+    void givenItems_whenAdd_checkIndex_thenVerify(TestInfo testInfo) {
+        System.out.println("displayName = " + testInfo.getDisplayName());
+
+        linkedList.add(b3sa3);
+        linkedList.add(bbas3);
+        linkedList.add(vale3);
+
+        assertTrue(isIndex(2, vale3));
+    }
+
+    @Test
+    void givenItems_whenRemove_checkRemoved_thenVerify(TestInfo testInfo) {
+        System.out.println("displayName = " + testInfo.getDisplayName());
+
+        linkedList.add(b3sa3);
+        linkedList.add(bbas3);
+        linkedList.add(vale3);
+        linkedList.add(irbr3);
+
+        linkedList.remove(2);
+
+        System.out.println(linkedList);
+        Assertions.assertFalse(isIndex(2, vale3));
+    }
+
+    @Test
+    void givenItems_whenRemoveFirst_checkRemoved_thenVerify(TestInfo testInfo) {
+        System.out.println("displayName = " + testInfo.getDisplayName());
+
+        linkedList.add(b3sa3);
+        linkedList.add(bbas3);
+        linkedList.add(vale3);
+        linkedList.add(irbr3);
+
+        linkedList.removeFirst();
+
+        Assertions.assertFalse(isIndex(0, b3sa3));
+        Assertions.assertTrue(isIndex(0, bbas3));
+
+    }
+
+    private boolean isIndex(int index, Stock item) {
+        Stock stock = linkedList.get(index);
+        return stock.equals(item);
     }
 
     private boolean isAtIndex(int i, Object item) {
         Stock stock = linkedList.get(1);
-        return  stock.equals(item);
+        return stock.equals(item);
     }
 
-    private boolean validPositionFisrt(Stock item) {
-        Stock firstItem = linkedList.get(0);
-
-        return firstItem.equals(item);
-    }
 
     private boolean validPositionLast(Object item) {
         Stock lastItem = linkedList.get(linkedList.size() - 1);

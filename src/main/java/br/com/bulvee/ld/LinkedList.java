@@ -1,26 +1,29 @@
 package br.com.bulvee.ld;
 
 public class LinkedList<T> {
-    private Node firstItem = null;
-    private Node lastItem = null;
+    private Node firstNode = null;
+    private Node lastNode = null;
 
     private int totalItems = 0;
 
     public void add(T item) {
-
-        Node newNode = new Node(item, null);
-        this.lastItem.setNextNode(newNode);
-        this.lastItem = newNode;
-        this.totalItems++;
+        if (totalItems == 0) {
+            addFirst(item);
+        } else {
+            Node newNode = new Node(item, null);
+            this.lastNode.setNextNode(newNode);
+            this.lastNode = newNode;
+            this.totalItems++;
+        }
     }
 
 
     public void addFirst(T item) {
-        Node newItem = new Node(item, firstItem);
-        this.firstItem = newItem;
+        Node newItem = new Node(item, firstNode);
+        this.firstNode = newItem;
 
         if (this.totalItems == 0) {
-            this.lastItem = newItem;
+            this.lastNode = newItem;
         }
 
         this.totalItems++;
@@ -47,14 +50,14 @@ public class LinkedList<T> {
         }
 
         Node newItem = new Node(item, null);
-        this.lastItem.setNextNode(newItem);
-        this.lastItem = newItem;
+        this.lastNode.setNextNode(newItem);
+        this.lastNode = newItem;
 
         this.totalItems++;
     }
 
-    public T get(int index){
-        return (T) this.getNode(index);
+    public T get(int index) {
+        return (T) this.getNode(index).getItem();
     }
 
 
@@ -64,7 +67,7 @@ public class LinkedList<T> {
             throw new IllegalArgumentException("This index does not exist.");
         }
 
-        Node current = this.firstItem;
+        Node current = this.firstNode;
 
         for (int i = 0; i < index; i++) {
             current = current.getNextNode();
@@ -78,8 +81,28 @@ public class LinkedList<T> {
         return index >= 0 && index < totalItems;
     }
 
+    public void removeFirst(){
+        if(totalItems == 0){
+            throw new IllegalArgumentException("This list is empty");
+        }
+        this.firstNode = this.firstNode.getNextNode();
+        totalItems --;
+
+    }
 
     public void remove(int index) {
+
+        if (isIndexInUse(index)) {
+            Node node = getNode(index);
+            node = null;
+            Node nextNode = getNode(index + 1);
+            Node previusNode = getNode(index - 1);
+            previusNode.setNextNode(nextNode);
+
+            totalItems--;
+        } else {
+            throw new IllegalArgumentException("Invalid index.");
+        }
 
     }
 
@@ -97,7 +120,7 @@ public class LinkedList<T> {
             return "[]";
         }
 
-        Node current = firstItem;
+        Node current = firstNode;
         StringBuilder builder = new StringBuilder("[");
 
         for (int i = 0; i < totalItems; i++) {
