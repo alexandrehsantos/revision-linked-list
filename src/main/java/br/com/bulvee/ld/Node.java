@@ -8,14 +8,14 @@ import lombok.ToString;
 public class Node {
 
     private Object item;
-    private Node nextItem;
+    private Node nextNode;
 
-    public Node getNextItem() {
-        return nextItem;
+    public Node getNextNode() {
+        return nextNode;
     }
 
-    public void setNextItem(Node nextItem) {
-        this.nextItem = nextItem;
+    public void setNextNode(Node nextNode) {
+        this.nextNode = nextNode;
     }
 
     public Object getItem() {

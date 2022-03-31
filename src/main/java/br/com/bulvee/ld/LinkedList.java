@@ -6,6 +6,15 @@ public class LinkedList<T> {
 
     private int totalItems = 0;
 
+    public void add(T item) {
+
+        Node newNode = new Node(item, null);
+        this.lastItem.setNextNode(newNode);
+        this.lastItem = newNode;
+        this.totalItems++;
+    }
+
+
     public void addFirst(T item) {
         Node newItem = new Node(item, firstItem);
         this.firstItem = newItem;
@@ -19,6 +28,16 @@ public class LinkedList<T> {
 
     public void add(int index, T item) {
 
+        if (index == 0) {
+            addFirst(item);
+        } else if (index == this.totalItems) {
+            add(item);
+        } else {
+            Node previusNode = this.getNode(index - 1);
+            Node newNode = new Node(item, previusNode.getNextNode());
+            previusNode.setNextNode(newNode);
+            totalItems++;
+        }
     }
 
     public void addLast(T item) {
@@ -28,22 +47,37 @@ public class LinkedList<T> {
         }
 
         Node newItem = new Node(item, null);
-        this.lastItem.setNextItem(newItem);
+        this.lastItem.setNextNode(newItem);
         this.lastItem = newItem;
 
         this.totalItems++;
     }
 
-    public T get(int index) {
+    public T get(int index){
+        return (T) this.getNode(index);
+    }
+
+
+    private Node getNode(int index) {
+
+        if (!isIndexInUse(index)) {
+            throw new IllegalArgumentException("This index does not exist.");
+        }
 
         Node current = this.firstItem;
 
-        for(int i = 0; i < index; i++){
-            current = current.getNextItem();
+        for (int i = 0; i < index; i++) {
+            current = current.getNextNode();
         }
 
-        return (T)current.getItem();
+        return current;
     }
+
+
+    private boolean isIndexInUse(int index) {
+        return index >= 0 && index < totalItems;
+    }
+
 
     public void remove(int index) {
 
@@ -70,7 +104,7 @@ public class LinkedList<T> {
             builder.append(current.getItem());
             builder.append(",");
 
-            current = current.getNextItem();
+            current = current.getNextNode();
         }
 
         builder.append("]");

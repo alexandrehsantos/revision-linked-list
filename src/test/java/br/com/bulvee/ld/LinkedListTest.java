@@ -1,10 +1,7 @@
 package br.com.bulvee.ld;
 
 import br.com.bulvee.ld.util.Mock;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -54,6 +51,52 @@ class LinkedListTest {
 
     }
 
+    @Test
+    void givenIndex_whenGetInvalidIndex_thenVerify(TestInfo testInfo) {
+        System.out.println("displayName = " + testInfo.getDisplayName());
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            linkedList.get(1000);
+        });
+    }
+
+    @Test
+    void givenIndex_whenAddAtMiddle_thenVerify(TestInfo testInfo) {
+        System.out.println("displayName = " + testInfo.getDisplayName());
+
+        linkedList.addFirst(mock.b3sa3);
+        linkedList.addFirst(mock.bbas3);
+        linkedList.addFirst(mock.vale3);
+
+
+        Stock atMiddle = mock.irbr3;
+        int index = 1;
+        linkedList.add(index, atMiddle);
+
+        System.out.println(linkedList);
+        assertTrue(isAtIndex(index,  atMiddle));
+    }
+
+    @Test
+    void givenItens_whenAdd_checkSize_thenVerify(TestInfo testInfo) {
+        System.out.println("displayName = " + testInfo.getDisplayName());
+
+        linkedList.addFirst(mock.b3sa3);
+        linkedList.addFirst(mock.bbas3);
+        linkedList.addFirst(mock.vale3);
+
+        assertTrue(isSize(3));
+
+    }
+
+    private boolean isSize(int index) {
+        return linkedList.size() == index;
+    }
+
+    private boolean isAtIndex(int i, Object item) {
+        Stock stock = linkedList.get(1);
+        return  stock.equals(item);
+    }
 
     private boolean validPositionFisrt(Stock item) {
         Stock firstItem = linkedList.get(0);
